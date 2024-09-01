@@ -3,21 +3,21 @@ const express = require("express");
 
 const app = express();
 
-const cors = require('cors')
+const cors = require("cors");
+const authRouter = require("./src/routers/authRouter");
+const connectDB = require("./src/configs/connectDb");
 
-app.use(cors())
+app.use(cors());
+app.use(express.json())
 
 const PORT = 3001;
 
-
-app.get('/auth/hello',(_req,res)=>{
-    res.send('<h1>hello</h1>')
-})
-
-app.listen(PORT, (err) =>{
-    if(err){
-        console.log(err)
-        return
-    } 
-    console.log(`Server starting at http://localhost:${PORT}`)
-})
+app.use("/auth", authRouter);
+connectDB()
+app.listen(PORT, (err) => {
+  if (err) {
+    console.log(err);
+    return;
+  }
+  console.log(`Server starting at http://localhost:${PORT}`);
+});
